@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   contractAddress,
   checkMetamaskStatus,
@@ -6,6 +6,7 @@ import {
   firstFunc,
   listenToEvents,
 } from "./configureMetamask";
+import ContractInfo from "../pages/ContractInfo";
 
 import { connect } from "react-redux";
 import {
@@ -15,7 +16,9 @@ import {
   changeMetamaskConnectFunction,
   changeMetamaskStatus,
   changeNetworkId,
+  changeIsPayer,
 } from "../redux/action";
+import Header from "./Header";
 
 const Layout = ({
   children,
@@ -23,6 +26,7 @@ const Layout = ({
   changeMetamaskConnectFunction,
   changeCurrentAccount,
   changeLoad,
+  changeIsPayer,
   changeNetworkId,
   changeMetamaskStatus,
   state,
@@ -35,6 +39,8 @@ const Layout = ({
     metamaskStatus,
     metamaskConnectFunction,
   } = state;
+
+  const [isPayerOrReceiver, setIsPayerOrReveiver] = useState(true);
 
   //default
   useEffect(() => {
@@ -55,24 +61,35 @@ const Layout = ({
   // for updating the change when metamask configuration changes !!
   useEffect(() => {
     // function to update the values of state
-    //    getContractData();
+    getContractData();
     // for listening of events
     //    listenToEvents(contract);
   }, [currentAccount, contractInstance, load]);
 
+  const getContractData = async () => {
+    if (!contractInstance || !currentAccount) return;
+    const _payer = await contractInstance.payer();
+    const _receiver = await contractInstance.receiver();
+    const trueOrFalse =
+      parseInt(_payer, 16) === parseInt(currentAccount, 16) ||
+      parseInt(_receiver, 16) === parseInt(currentAccount, 16);
+    setIsPayerOrReveiver(trueOrFalse);
+    changeIsPayer(parseInt(_payer, 16) === parseInt(currentAccount, 16));
+  };
+
   return (
     <>
-      <h1>Hello, Blockchain !!</h1>
-      {!metamaskStatus ? (
-        <button onClick={() => metamaskConnectFunction(changeMetamaskStatus)}>
-          Connect Metamask
-        </button>
+      {!isPayerOrReceiver ? (
+        <h1>This App is not meant for the Current Address !!</h1>
       ) : (
         <>
+          <Header
+            changeMetamaskStatus={changeMetamaskStatus}
+            metamaskConnectFunction={metamaskConnectFunction}
+            currentAccount={currentAccount}
+            metamaskStatus={metamaskStatus}
+          />
           {children}
-          <h3>Contract address: {contractAddress}</h3>
-          <h4>Current account: {currentAccount}</h4>
-          <h4>Current chain-id: {networkId}</h4>
         </>
       )}
     </>
@@ -87,4 +104,5 @@ export default connect(mapStateToState, {
   changeLoad,
   changeNetworkId,
   changeMetamaskStatus,
+  changeIsPayer,
 })(Layout);

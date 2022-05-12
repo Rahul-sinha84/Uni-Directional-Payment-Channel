@@ -1,0 +1,76 @@
+.single-input {
+  margin: 1rem auto;
+  input {
+    font-size: 1.5rem;
+    padding: 0.5rem 0.8rem;
+    width: 60%;
+    border: 2px solid #777;
+    border-radius: 5px;
+  }
+  button {
+    font-size: 1.5rem;
+    padding: 0.5rem 0.8rem;
+    outline: none;
+    border: none;
+    margin-left: 1rem;
+    color: white;
+    background-color: #777;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover {
+      background-color: #666;
+    }
+    &:active {
+      background-color: #555;
+    }
+  }
+}
+.cancel-btn {
+  font-size: 1.5rem;
+  padding: 0.5rem 0.8rem;
+  outline: none;
+  border: none;
+  margin-top: 1rem;
+  color: white;
+  background-color: #d0342c;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background-color: #cf1f16;
+  }
+  &:active {
+    background-color: #ce0a00;
+  }
+}
+.double-inputs {
+  display: flex;
+  margin-top: 1rem;
+  input {
+    font-size: 1.5rem;
+    padding: 0.5rem 0.8rem;
+    flex: 3;
+    border: 2px solid #777;
+    border-radius: 5px;
+    margin-right: 1rem;
+  }
+  .number {
+    flex: 1;
+  }
+  button {
+    font-size: 1.5rem;
+    padding: 0.5rem 0.8rem;
+    outline: none;
+    border: none;
+    margin-left: 1rem;
+    color: white;
+    background-color: #777;
+    cursor: pointer;
+    border-radius: 5px;
+    &:hover {
+      background-color: #666;
+    }
+    &:active {
+      background-color: #555;
+    }
+  }
+}

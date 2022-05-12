@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import {
   CONTRACT_INSTANCE,
   CURRENT_ACCOUNT,
+  ISPAYER,
   LOAD,
   METAMASK_CONNECT_FUNCTION,
   METAMASK_STATUS,
@@ -32,6 +33,10 @@ const load = (state = false, action) => {
   if (action.type === LOAD) return action.payload;
   return state;
 };
+const isPayer = (state = false, action) => {
+  if (action.type === ISPAYER) return action.payload;
+  return state;
+};
 
 export default combineReducers({
   metamaskConnectFunction,
@@ -40,4 +45,5 @@ export default combineReducers({
   metamaskStatus,
   networkId,
   load,
+  isPayer,
 });

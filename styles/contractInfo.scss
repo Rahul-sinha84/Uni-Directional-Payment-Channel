@@ -1,0 +1,22 @@
+.contract-info {
+  margin: 5rem auto;
+  width: 50%;
+
+  &__container {
+    margin: 0 auto;
+
+    &--inner {
+      &__item {
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem 0;
+        font-size: 1.3rem;
+        .contract-info__key {
+          font-weight: bold;
+        }
+        .contract-info__value {
+        }
+      }
+    }
+  }
+}

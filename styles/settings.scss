@@ -1,0 +1,21 @@
+.settings {
+  width: 80%;
+  margin: 5rem auto;
+  &__container {
+    &--item {
+      margin: 2rem auto;
+      &__title {
+        font-size: 1.8rem;
+        font-weight: 500;
+        text-decoration: underline;
+        margin-bottom: 0.5rem;
+      }
+      &__description {
+        font-size: 1.5rem;
+        color: #666;
+      }
+      &__value {
+      }
+    }
+  }
+}

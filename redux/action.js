@@ -1,6 +1,7 @@
 import {
   CONTRACT_INSTANCE,
   CURRENT_ACCOUNT,
+  ISPAYER,
   LOAD,
   METAMASK_CONNECT_FUNCTION,
   METAMASK_STATUS,
@@ -25,3 +26,4 @@ export const changeMetamaskConnectFunction = (payload) => ({
 });
 export const changeNetworkId = (payload) => ({ type: NETWORK_ID, payload });
 export const changeLoad = (payload) => ({ type: LOAD, payload });
+export const changeIsPayer = (payload) => ({ type: ISPAYER, payload });

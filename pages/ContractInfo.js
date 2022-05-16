@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import utils from "../components/utils";
+import BigNumber from "bignumber.js";
 
 const ContractInfo = ({ state }) => {
   const { contractInstance } = state;
@@ -22,13 +23,15 @@ const ContractInfo = ({ state }) => {
     const _receiver = await contractInstance.receiver();
     const _expiresAt = await contractInstance.endTime();
     const _balance = await contractInstance.getBalance();
+    const balanceBN = new BigNumber(_balance._hex);
+    const reqBalanceBN = balanceBN.dividedBy(10 ** 18).toFixed();
     const date = new Date(_expiresAt.toNumber() * 1000);
     const dateVisible = `${date.getDate()} ${utils.getMonthbyNumber(
       date.getMonth() + 1
     )} ${date.getFullYear()}`;
     setPayer(_payer);
     setReceiver(_receiver);
-    setBalance(_balance.toNumber() / 10 ** 18);
+    setBalance(reqBalanceBN);
     setExpiresAt(dateVisible);
     setContractAddress(contractInstance.address);
   };

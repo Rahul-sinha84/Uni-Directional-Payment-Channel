@@ -20,6 +20,8 @@ const controllers = {
     try {
       const { contractAddress } = req.params;
       await Signature.find({ contractAddress })
+        .sort({ createdAt: -1 })
+        .exec()
         .then((response) =>
           returnFunc(response, res, "Successfully retreived !!")
         )

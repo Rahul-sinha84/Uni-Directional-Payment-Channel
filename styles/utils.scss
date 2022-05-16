@@ -74,3 +74,25 @@
     }
   }
 }
+.disabled-btn {
+  background-color: #a1a1a1 !important;
+  &:hover {
+    cursor: not-allowed !important;
+  }
+}
+.copy-text {
+  &:hover {
+    cursor: pointer;
+  }
+  &:hover + &-element {
+    display: block;
+  }
+  &-element {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    width: fit-content;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.2rem;
+  }
+}

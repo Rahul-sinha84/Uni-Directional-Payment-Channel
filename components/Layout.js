@@ -17,6 +17,7 @@ import {
   changeMetamaskStatus,
   changeNetworkId,
   changeIsPayer,
+  changeIsContractDead,
 } from "../redux/action";
 import Header from "./Header";
 
@@ -30,6 +31,7 @@ const Layout = ({
   changeNetworkId,
   changeMetamaskStatus,
   state,
+  changeIsContractDead,
 }) => {
   const {
     contractInstance,
@@ -38,6 +40,8 @@ const Layout = ({
     networkId,
     metamaskStatus,
     metamaskConnectFunction,
+    isContractDead,
+    fullRefresh,
   } = state;
 
   const [isPayerOrReceiver, setIsPayerOrReveiver] = useState(true);
@@ -48,7 +52,8 @@ const Layout = ({
       changeContractInstance,
       changeCurrentAccount,
       changeNetworkId,
-      changeMetamaskStatus
+      changeMetamaskStatus,
+      changeIsContractDead
     );
     checkMetamaskStatus(
       changeMetamaskStatus,
@@ -56,7 +61,7 @@ const Layout = ({
       changeNetworkId
     );
     changeMetamaskConnectFunction(connectMetamask);
-  }, []);
+  }, [fullRefresh]);
 
   // for updating the change when metamask configuration changes !!
   useEffect(() => {
@@ -67,7 +72,7 @@ const Layout = ({
   }, [currentAccount, contractInstance, load]);
 
   const getContractData = async () => {
-    if (!contractInstance || !currentAccount) return;
+    if (!contractInstance.payer || !currentAccount) return;
     const _payer = await contractInstance.payer();
     const _receiver = await contractInstance.receiver();
     const trueOrFalse =
@@ -79,8 +84,14 @@ const Layout = ({
 
   return (
     <>
-      {!isPayerOrReceiver ? (
-        <h1>This App is not meant for the Current Address !!</h1>
+      {isContractDead ? (
+        <h1 style={{ textAlign: "center" }}>
+          This Application is revoked by someone, {`it's`} no longer exists !!!
+        </h1>
+      ) : !isPayerOrReceiver ? (
+        <h1 style={{ textAlign: "center" }}>
+          This App is not meant for the Current Address !!
+        </h1>
       ) : (
         <>
           <Header
@@ -105,4 +116,5 @@ export default connect(mapStateToState, {
   changeNetworkId,
   changeMetamaskStatus,
   changeIsPayer,
+  changeIsContractDead,
 })(Layout);

@@ -5,3 +5,5 @@ export const METAMASK_CONNECT_FUNCTION = "METAMASK_CONNECT_FUNCTION";
 export const NETWORK_ID = "NETWORK_ID";
 export const LOAD = "LOAD";
 export const ISPAYER = "ISPAYER";
+export const IS_CONTRACT_DEAD = "IS_CONTRACT_DEAD";
+export const FULL_REFRESH = "FULL_REFRESH";

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import utils from "./utils";
 
 const Header = ({
   metamaskConnectFunction,
@@ -7,13 +8,7 @@ const Header = ({
   currentAccount,
   metamaskStatus,
 }) => {
-  const address = `${currentAccount.substring(
-    0,
-    5
-  )}...${currentAccount.substring(
-    currentAccount.length - 4,
-    currentAccount.length
-  )}`;
+  const address = utils.shortHash(currentAccount);
 
   return (
     <div className="header">

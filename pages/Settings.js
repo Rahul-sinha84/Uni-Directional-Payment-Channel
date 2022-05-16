@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import utils from "../components/utils";
+import axios from "../services/axios";
+import { changeFullRefresh } from "../redux/action";
 
-const Settings = ({ state }) => {
-  const { isPayer, contractInstance } = state;
+const Settings = ({ state, changeFullRefresh }) => {
+  const { isPayer, contractInstance, fullRefresh } = state;
   const [days, setDays] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawSignature, setWithdrawSignature] = useState("");
   const [closeAmount, setCloseAmount] = useState("");
   const [closeSignature, setCloseSignature] = useState("");
+  const [reqAmount, setReqAmount] = useState("");
+  const [reqAmountDesc, setReqAmountDesc] = useState("");
 
   const handleExtendDate = async () => {
     if (days <= 0 || !contractInstance) {
@@ -49,6 +53,7 @@ const Settings = ({ state }) => {
     try {
       const tx = await contractInstance.cancel();
       await tx.wait();
+      changeFullRefresh(!fullRefresh);
     } catch (err) {
       return utils.handleError(err);
     }
@@ -82,9 +87,26 @@ const Settings = ({ state }) => {
       await tx.wait();
       setCloseAmount("");
       setCloseSignature("");
+      changeFullRefresh(!fullRefresh);
     } catch (err) {
       return utils.handleError(err);
     }
+  };
+
+  const handleReqAmount = async () => {
+    if (reqAmount <= 0 || !reqAmountDesc || !contractInstance)
+      return alert(
+        "Either the contract is not connected or there is an invalid input !!"
+      );
+    const response = await axios.post("/signatures", {
+      contractAddress: contractInstance.address,
+      amount: reqAmount,
+      description: reqAmountDesc,
+    });
+    if (response.status !== 200) return alert("Some error occurred !!");
+    alert("Successfully captured your request !!");
+    setReqAmount("");
+    setReqAmountDesc("");
   };
 
   return (
@@ -200,6 +222,33 @@ const Settings = ({ state }) => {
                 </div>
               </div>
             </div>
+            <div className="settings__container--item">
+              <div className="settings__container--item__title">
+                Request Signature for amount
+              </div>
+              <div className="settings__container--item__description">
+                Enter amount and description for the task you have done to
+                request the payer for signing the amount.
+              </div>
+              <div className="settings__container--item__value">
+                <div className="double-inputs">
+                  <input
+                    value={reqAmount}
+                    onChange={(e) => setReqAmount(e.target.value)}
+                    type="number"
+                    placeholder="Enter amount"
+                    className="number"
+                  />
+                  <input
+                    value={reqAmountDesc}
+                    onChange={(e) => setReqAmountDesc(e.target.value)}
+                    type="text"
+                    placeholder="Enter Reason for request"
+                  />
+                  <button onClick={handleReqAmount}>Request</button>
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
@@ -209,4 +258,4 @@ const Settings = ({ state }) => {
 
 const mapStateToProps = (state) => ({ state });
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps, { changeFullRefresh })(Settings);

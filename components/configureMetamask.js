@@ -9,7 +9,8 @@ export const firstFunc = async (
   setContract,
   setCurrentAccount,
   setCurrentNetworkId,
-  setMetamaskConnected
+  setMetamaskConnected,
+  setIsContractDead
 ) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const _signer = await provider.getSigner();
@@ -22,8 +23,14 @@ export const firstFunc = async (
   } else {
     setMetamaskConnected(false);
   }
+  const isContractDead = await provider.getCode(contractAddress);
+  if (isContractDead === "0x") {
+    return setIsContractDead(true);
+  }
+  setIsContractDead(false);
   const contract = await initialiseContract(_signer);
   setContract(contract);
+  console.log("testino");
 };
 
 export const initialiseContract = async (_signer) => {

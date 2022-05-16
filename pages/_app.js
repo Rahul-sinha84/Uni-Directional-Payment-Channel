@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
         <Head>
           <title>UniDirectional-Payment-Channel</title>
         </Head>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </Layout>
     </Provider>
   );

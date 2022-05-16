@@ -55,5 +55,11 @@ const utils = {
     const str = err.data.message.split(":")[2];
     return alert(str);
   },
+  shortHash: (hash) => {
+    return `${hash.substring(0, 5)}...${hash.substring(
+      hash.length - 4,
+      hash.length
+    )}`;
+  },
 };
 export default utils;

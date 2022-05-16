@@ -2,7 +2,9 @@ import { combineReducers } from "redux";
 import {
   CONTRACT_INSTANCE,
   CURRENT_ACCOUNT,
+  FULL_REFRESH,
   ISPAYER,
+  IS_CONTRACT_DEAD,
   LOAD,
   METAMASK_CONNECT_FUNCTION,
   METAMASK_STATUS,
@@ -37,6 +39,14 @@ const isPayer = (state = false, action) => {
   if (action.type === ISPAYER) return action.payload;
   return state;
 };
+const isContractDead = (state = false, action) => {
+  if (action.type === IS_CONTRACT_DEAD) return action.payload;
+  return state;
+};
+const fullRefresh = (state = false, action) => {
+  if (action.type === FULL_REFRESH) return action.payload;
+  return state;
+};
 
 export default combineReducers({
   metamaskConnectFunction,
@@ -46,4 +56,6 @@ export default combineReducers({
   networkId,
   load,
   isPayer,
+  isContractDead,
+  fullRefresh,
 });
